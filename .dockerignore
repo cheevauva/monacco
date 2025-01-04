@@ -5,10 +5,12 @@
 /public/storage
 /storage/*.key
 /storage/pail
-/vendor
+.docker.env
 .env
 .env.backup
 .env.production
+.env.example
+.docker.env.dist
 .phpactor.json
 .phpunit.result.cache
 Homestead.json
@@ -22,4 +24,6 @@ yarn-error.log
 /.vscode
 /.zed
 /.docker.env
-/.env.Makefile
+/.git
+Makefile
+/storage
