@@ -6,27 +6,31 @@ use Telegram\Bot\Objects\Update;
 use Telegram\Bot\Keyboard\Keyboard;
 
 Route::get('/', function () {
-    //dd(Telegram::getMe());
-    $updates = Telegram::getUpdates();
+    echo '<pre>';
+    $updates = Telegram::getUpdates([
+        'offset' => '645930685',
+        'limit' => 1000,
+    ]);
+
     foreach ($updates as $update) {
         assert($update instanceof Update);
-        print_r($update);
-    }
+        var_dump($update->message);
+        if ($update->message->document) {
+            print_r($update->message->document);
+            $file = Telegram::getFile([
+                'file_id' => $update->message->document->fileId,
+            ]);
 
+            $file = file_get_contents(sprintf('https://api.telegram.org/file/bot%s/%s', Telegram::bot()->getAccessToken(), $file['file_path']));
+            $data = json_decode($file, true);
 
-    if (0) {
-        $response = Telegram::sendMessage([
-            'chat_id' => $update->getChat()->get('id'),
-            'text' => 'Hello World',
-            'reply_markup' => Keyboard::make()
-                ->setResizeKeyboard(true)
-                ->setOneTimeKeyboard(true)
-                ->row([
-                    Keyboard::button('1'),
-                    Keyboard::button('2'),
-                    Keyboard::button('3'),
-                ])
-        ]);
-        $messageId = $response->getMessageId();
+            if ($data) {
+                Telegram::sendMessage([
+                    'chat_id' => $update->getChat()->get('id'),
+                    'text' => 'Чек принят',
+                    'reply_to_message_id' => $update->message->message_id
+                ]);
+            }
+        }
     }
 });
