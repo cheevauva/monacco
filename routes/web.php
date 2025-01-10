@@ -1,11 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
 
-Route::get('/', function () {
-    $telegramService = new App\Services\TelegramMessageService();
-    $telegramService->importFromTelegram();
-});
+Route::get('/', [MainController::class, 'index']);
 Route::get('/test', function () {
     $telegramService = new App\Services\TelegramService;
 

@@ -13,4 +13,7 @@ class TelegramMessageDTO
     public ?string $text = null;
     public ?array $parsedData = null;
     public ?string $parseHandlerMessage = null;
+    public bool $hasDocument = false;
+    public bool $isJsonDocument = false;
+    public ?string $documentFileId = null;
 }
